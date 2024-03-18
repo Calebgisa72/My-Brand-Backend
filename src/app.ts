@@ -1,5 +1,5 @@
 import express from 'express';
-import { Request,response } from 'express';
+import { Request,Response } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
@@ -13,6 +13,10 @@ const PORT = 4300;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(express.json());
+
+app.get('/', (req:Request,res: Response)=> {
+    res.send("Welcome To My Brand")
+});
 
 app.use('/api', blogRoutes);
 
