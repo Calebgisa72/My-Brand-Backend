@@ -112,7 +112,7 @@ class BlogController {
     async addComment(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const { sender, comment } = req.body; // Include sender in request body
+            const { sender, comment } = req.body;
     
             const blog: IBlog | null = await Blog.findById(id);
             if (!blog) {
@@ -128,10 +128,10 @@ class BlogController {
             if (!blog.bComments) {
                 blog.bComments = [];
             }
-            blog.bComments.push(newComment._id);
+            blog.bComments.push(newComment);
             await blog.save();
     
-            res.status(201).json({ message: 'Comment added successfully', comment: newComment });
+            res.status(201).json({ message: 'Comment added successfully', blog });
         } catch (error: any) {
             console.error(error);
             res.status(500).json({ message: 'Internal server error' });
@@ -142,7 +142,7 @@ class BlogController {
         try {
             const id = req.params.id;
     
-            const blog: IBlog | null = await Blog.findById(id).populate('bComments');
+            const blog: IBlog | null = await Blog.findById(id);
             if (!blog) {
                 res.status(404).json({ message: 'Blog not found' });
                 return;
@@ -159,7 +159,7 @@ class BlogController {
         try {
             const blogId = req.params.blogId;
             const commentIndexStr = req.params.commentIndex;
-            const commentIndex = parseInt(commentIndexStr, 10); // Parse string to number
+            const commentIndex = parseInt(commentIndexStr, 10);
 
             const blog: IBlog | null = await Blog.findById(blogId);
             if (!blog) {
