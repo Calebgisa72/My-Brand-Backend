@@ -142,7 +142,7 @@ class BlogController {
         try {
             const id = req.params.id;
     
-            const blog: IBlog | null = await Blog.findById(id).populate('bComments');
+            const blog: IBlog | null = await Blog.findById(id);
             if (!blog) {
                 res.status(404).json({ message: 'Blog not found' });
                 return;
