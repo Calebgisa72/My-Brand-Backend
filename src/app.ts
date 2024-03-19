@@ -22,11 +22,23 @@ app.get('/', (req:Request,res: Response)=> {
     res.send("Welcome To My Brand")
 });
 
-app.use('/api', blogRoutes);
+app.use('/api', blogRoutes
+/*
+#swagger.tags = ['BLOG']
+*/
+);
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes 
+ /*
+#swagger.tags = ['USER']
+*/
+);
 
-app.use('/api', commentRoutes);
+app.use('/api', commentRoutes
+/*
+#swagger.tags = ['COMMENT']
+*/
+);
 
 mongoose.connect(MONGODB_URI)
     .then(() => {

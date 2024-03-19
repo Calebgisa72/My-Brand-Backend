@@ -23,6 +23,9 @@
     },
     "/api/blogs": {
       "post": {
+        "tags": [
+          "BLOG"
+        ],
         "description": "",
         "parameters": [
           {
@@ -69,6 +72,9 @@
         }
       },
       "get": {
+        "tags": [
+          "BLOG"
+        ],
         "description": "",
         "parameters": [
           {
@@ -94,6 +100,9 @@
     },
     "/api/blogs/{id}": {
       "get": {
+        "tags": [
+          "BLOG"
+        ],
         "description": "",
         "parameters": [
           {
@@ -128,6 +137,9 @@
         }
       },
       "put": {
+        "tags": [
+          "BLOG"
+        ],
         "description": "",
         "parameters": [
           {
@@ -194,6 +206,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "BLOG"
+        ],
         "description": "",
         "parameters": [
           {
@@ -230,6 +245,9 @@
     },
     "/api/blogs/{id}/like": {
       "post": {
+        "tags": [
+          "BLOG"
+        ],
         "description": "",
         "parameters": [
           {
@@ -256,6 +274,9 @@
     },
     "/api/auth/signup": {
       "post": {
+        "tags": [
+          "USER"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -286,6 +307,9 @@
     },
     "/api/auth/signin": {
       "post": {
+        "tags": [
+          "USER"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -319,6 +343,9 @@
     },
     "/api/blogs/{id}/comments": {
       "post": {
+        "tags": [
+          "COMMENT"
+        ],
         "description": "",
         "parameters": [
           {
@@ -360,6 +387,9 @@
         }
       },
       "get": {
+        "tags": [
+          "COMMENT"
+        ],
         "description": "",
         "parameters": [
           {
@@ -386,6 +416,9 @@
     },
     "/api/blogs/{blogId}/comments/{commentIndex}": {
       "delete": {
+        "tags": [
+          "COMMENT"
+        ],
         "description": "",
         "parameters": [
           {
