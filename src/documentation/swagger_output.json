@@ -467,9 +467,10 @@
   },
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
+      "JWTAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
