@@ -18,7 +18,7 @@ const blogSchema: Schema = new Schema({
     bLongDesc: { type: String, required: true },
     bDate: { type: Date, default: Date.now },
     bNumOfLike: { type: Number, default: 0 },
-    bComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+    bComments: [{ type: Object, ref: 'Comment' }]
 });
 
 export default mongoose.model<IBlog>('Blog', blogSchema);
