@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import blogRoutes from './routes/blogRoutes';
 import commentRoutes from './routes/commentRoutes';
+import swaggerUi from "swagger-ui-express";
+import swaggerOutPut from "./documentation/swagger_output.json";
 
 dotenv.config();
 
@@ -13,6 +15,8 @@ const PORT = 4300;
 const MONGODB_URI = process.env.MONGODB_URI || "1000";
 
 app.use(express.json());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutPut));
 
 app.get('/', (req:Request,res: Response)=> {
     res.send("Welcome To My Brand")
