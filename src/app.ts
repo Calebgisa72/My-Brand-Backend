@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 const PORT = 4300;
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI || "1000";
 
 app.use(express.json());
 
@@ -24,7 +24,7 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api', commentRoutes);
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI)
     .then(() => {
         console.log('Connected to MongoDB');
         app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
