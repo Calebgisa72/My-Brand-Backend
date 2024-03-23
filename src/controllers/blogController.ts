@@ -4,14 +4,10 @@ import cloudinary from '../services/cloudinary';
 import upload from '../middlewares/multer';
 import Comment, { IComment } from '../models/comment';
 
-
 class BlogController {
     //Creation of a new blog post
     async createBlog (req: Request, res: Response): Promise<void> {
         try {
-            console.log('Request body:', req.body);
-            console.log('Uploaded file:', req.file);
-
         if (!req.file) {
             res.status(400).json({ message: 'Image file is required' });
             return;
@@ -194,7 +190,7 @@ class BlogController {
             blog.bNumOfLike += 1;
             await blog.save();
     
-            res.status(200).json(blog);
+            res.status(200).json({ blog, message: 'Blog liked successfully' });
         } catch (error: any) {
             console.error(error);
             res.status(500).json({ message: 'Internal server error' });
