@@ -18,8 +18,8 @@ const apiDoc = {
   paths: {},
   components: {
     securitySchemes: {
-      bearerAuth: {
-        type: "http",
+      BearerAuth: {
+        type: "apiKey",
         scheme: "bearer",
         bearerFormat: "JWT",
         name: "Authorization",
