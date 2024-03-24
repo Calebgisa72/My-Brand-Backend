@@ -5,6 +5,10 @@ const apiDoc = {
     title: "MY BRAND API DOCUMENTATION",
     description: "Documentation for the Express API endpoints",
     version: "1.0.0",
+    contact: {
+      name: "Gisa M. Caleb",
+      email: "gisacaleb72@gmail.com",
+    },
   },
   servers: [
     {
@@ -17,6 +21,9 @@ const apiDoc = {
       bearerAuth: {
         type: "http",
         scheme: "bearer",
+        bearerFormat: "JWT",
+        name: "Authorization",
+        in: "header",
       },
     },
   },
