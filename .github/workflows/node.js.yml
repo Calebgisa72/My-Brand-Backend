@@ -10,9 +10,9 @@ jobs:
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       MONGODB_URI: ${{ secrets.MONGO_URI }}
-      cloud_name: ${{ secrets.CLOUDNARY_NAME }}
-      api_key: ${{ secrets.CLOUDNARY_API_KEY }}
-      api_secret: ${{ secrets.CLOUDNARY_API_SECRETE }}
+      CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDNARY_NAME }}
+      CLOUDINARY_API_KEY: ${{ secrets.CLOUDNARY_API_KEY }}
+      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDNARY_API_SECRETE }}
     strategy:
       matrix:
         node-version: [18.x]
