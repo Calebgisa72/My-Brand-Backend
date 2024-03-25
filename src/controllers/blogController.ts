@@ -26,7 +26,6 @@ class BlogController {
         await newBlog.save();
         res.status(201).json(newBlog);
     } catch (error) {
-        console.error('Error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
     };

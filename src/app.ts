@@ -42,7 +42,7 @@ app.use('/api', commentRoutes
 
 mongoConnect(MONGODB_URI)
     .then(() => {
-        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+        app.listen(PORT);
     })
     .catch((error) => {
         console.error('Error starting server:', error);
