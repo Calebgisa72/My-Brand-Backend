@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests with coverage
-        run: npm run test:ci
+        run: npm run test:ci -- --coverage --detectOpenHandles
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
