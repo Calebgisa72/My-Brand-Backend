@@ -6,6 +6,7 @@ import { mockUserData, mockBlogData } from '../mock/mockData';
 import path = require('path');
 import Blog from '../models/Blog'
 import fs from "fs";
+import { testMongoConnect, testMongoClose } from '../utils/mongo';
 
 dotenv.config();
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mybranddb';
@@ -25,6 +26,15 @@ let id = "65fd7a01f6f7f2fa932aadb7";
 let createdBlogId: string;
 let createdCommentId: string;
 let commentId: number= 0;
+
+beforeAll(async () => {
+    await testMongoConnect(MONGODB_URI);
+});
+
+afterAll(async () => {
+    await testMongoClose();
+});
+
 
 describe("Blog API", () => {
     beforeAll(async () => {
@@ -369,7 +379,6 @@ describe("Blog Comment", () => {
 
 
 });
-
 
 
 
