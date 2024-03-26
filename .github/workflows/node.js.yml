@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       MONGODB_URI: ${{ secrets.MONGO_URI }}
@@ -15,7 +15,7 @@ jobs:
       CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
