@@ -19,7 +19,6 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
 
         res.status(200).json({ message: 'User credentials updated successfully' });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
@@ -37,7 +36,6 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
             res.status(401).json({ message: 'Invalid username or password' });
         }
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

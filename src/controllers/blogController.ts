@@ -128,7 +128,6 @@ class BlogController {
     
             res.status(201).json({ message: 'Comment added successfully', blog });
         } catch (error: any) {
-            console.error(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }
@@ -191,7 +190,6 @@ class BlogController {
     
             res.status(200).json({ blog, message: 'Blog liked successfully' });
         } catch (error: any) {
-            console.error(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }
