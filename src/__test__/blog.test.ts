@@ -64,6 +64,17 @@ describe("Blog API", () => {
             expect(authToken).toBeDefined();
         });
 
+        test("Should not sign in a fake user", async ()=>{
+            const fakeUser = {
+                username: "72",
+                password: "My Passd"
+            };
+            const signInResponse = await request(app)
+                .post("/api/auth/signin")
+                .send(fakeUser)
+                .expect(401);
+        })
+
      describe("Create new blog", ()=>{
         test("Should create a new blog post", async () => {
 
@@ -87,13 +98,50 @@ describe("Blog API", () => {
                 expect(response1.body).toHaveProperty("bImage");
 
                 createdBlogId = response1.body._id;
-                console.log(createdBlogId);
 
             const response2 = await request(app)
             .post("/api/blogs")
             .expect(401);
             expect(response2.body.message).toBe("Token is required");
+
+            const response3 = await request(app)
+            .post("/api/blogs")
+            .set("Authorization", `Bearer ${authToken}kjjhewdckjcw`)
+            .expect(401)
+            expect(response3.body.message).toBe("Invalid token")
     });
+
+    test("Should return 400 if image file is not provided", async () => {
+        const invalidBlogData = {
+            bTitle: "Test Blog",
+            bShortDesc: "Test Short Description",
+            bLongDesc: "Test Long Description"
+        };
+
+        const response = await request(app)
+            .post("/api/blogs")
+            .set("Authorization", `Bearer ${authToken}`)
+            .send(invalidBlogData)
+            .expect(400);
+        expect(response.body.message).toBe("Image file is required");
+    });
+
+    test("Should return 500 if an internal server error occurs", async () => {
+        const invalidBlogData = {};
+        const filePath = path.join(__dirname, "test.jpeg");
+            if (!fs.existsSync(filePath)) {
+            throw new Error("Test file not found");
+            }
+        const response = await request(app)
+            .post("/api/blogs")
+            .set("Authorization", `Bearer ${authToken}`)
+            .attach("bImage", filePath as string)
+            .field(invalidBlogData)
+            .expect(500);
+            
+        expect(response.body.message).toBe("Internal server error");
+    });
+
      })
 
      describe("Get All Blogs",()=>{
@@ -104,6 +152,14 @@ describe("Blog API", () => {
                 .expect(200);
 
             expect(Array.isArray(response.body)).toBe(true);
+        });
+
+        test("Should return 500 if an internal server error occurs", async () => {
+            jest.spyOn(Blog, "find").mockRejectedValueOnce(new Error("Database error"));
+            const response = await request(app)
+                .get("/api/blogs")
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(500);
         });
      })
 
@@ -144,6 +200,7 @@ describe("Blog API", () => {
     
             expect(response.body.message).toBe("Blog not found");
         });
+    
 
     });
 
@@ -157,6 +214,16 @@ describe("Blog API", () => {
                 .expect(200);
     
             expect(response.body.message).toBe("Blog deleted successfully");
+        });
+
+        test("Should return 404 if blog post does not exist", async () => {
+            const nonExistentId = "123456789012345678901234";
+            const response = await request(app)
+                .delete(`/api/blogs/${nonExistentId}`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(404);
+    
+            expect(response.body.message).toBe("Blog not found");
         });
      })
 
@@ -249,7 +316,6 @@ describe("Blog Comment", () => {
             expect(addedComment.comment).toBe(newComment.comment);
 
             createdBlogId = addedComment._id;
-            console.log(createdBlogId);
             
      });
 
@@ -262,11 +328,11 @@ describe("Blog Comment", () => {
             expect(Array.isArray(response.body)).toBe(true);
         });
 
-        test("Comment a non-existent blog post", async () => {
+        test("Get Comment of non-existent blog post", async () => {
             const nonExistentId = "123456789012345678901234";
             const response = await request(app)
-                .post(`/api/blogs/${nonExistentId}/comments`)
-                .expect(404);
+            .get(`/api/blogs/${nonExistentId}/comments`)
+            .expect(404);
     
             expect(response.body.message).toBe("Blog not found");
         });
@@ -280,6 +346,24 @@ describe("Blog Comment", () => {
     
                 expect(response.body.message).toBe("Comment deleted successfully");
             });
+
+            test("Trying to delete a non-existing comment", async () => {
+                const nonExistentId = "123456789012345678901234";
+                const response = await request(app)
+                .delete(`/api/blogs/${nonExistentId}/comments/${commentId}`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(404);
+        
+                expect(response.body.message).toBe("Blog not found");
+            });
+
+            test("deleting a non-exisitng comment", async()=>{
+                const  response = await request(app)
+                .delete(`/api/blogs/${id}/comments/NAN`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(400)
+                expect(response.body.message).toBe("Invalid comment index");
+            })
         })
     });
 
