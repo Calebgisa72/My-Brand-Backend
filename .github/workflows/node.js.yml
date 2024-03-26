@@ -6,13 +6,13 @@ on:
     branches: [ "main" ]
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       MONGODB_URI: ${{ secrets.MONGO_URI }}
       CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDNARY_NAME }}
       CLOUDINARY_API_KEY: ${{ secrets.CLOUDNARY_API_KEY }}
-      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDNARY_API_SECRETE }}
+      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
     strategy:
       matrix:
         node-version: [18.x]
@@ -31,4 +31,3 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: Calebgisa72/My-Brand-Backend
