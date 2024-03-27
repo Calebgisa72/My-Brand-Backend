@@ -19,17 +19,15 @@ const apiDoc = {
   components: {
     securitySchemes: {
       BearerAuth: {
-        type: "apiKey",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-        name: "Authorization",
-        in: "header",
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
       },
     },
   },
-};
+}
 const outputFilePath = "./swagger_output.json";
-const endpointsFilePaths = ["../app.ts"];
+const endpointsFilePaths = ['../app.ts', '../routes/*.ts'];
 swaggerAutogen({ openapi: "3.0.0" })(
   outputFilePath,
   endpointsFilePaths,
