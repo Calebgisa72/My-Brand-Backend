@@ -10,7 +10,7 @@ const options = {
       description: 'Documentation for the Express API endpoints',
       version: '1.0.0',
       contact: {
-        name: 'Gisa M. Caleb',
+        name: 'Gisa M. Calebb',
         email: 'gisacaleb72@gmail.com',
       },
     },
