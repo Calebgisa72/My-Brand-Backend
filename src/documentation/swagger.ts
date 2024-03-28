@@ -13,17 +13,20 @@ const apiDoc = {
   servers: [
     {
       url: "https://my-brand-backend-iyxk.onrender.com",
+      
+    },
+    {
+      url: "http://localhost:4300",
+      
     },
   ],
   paths: {},
   components: {
     securitySchemes: {
       BearerAuth: {
-        type: "apiKey",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-        name: "Authorization",
-        in: "header",
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
       },
     },
   },
@@ -35,7 +38,3 @@ swaggerAutogen({ openapi: "3.0.0" })(
   endpointsFilePaths,
   apiDoc
 );
-
-
-
-
