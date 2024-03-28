@@ -13,6 +13,11 @@ const apiDoc = {
   servers: [
     {
       url: "https://my-brand-backend-iyxk.onrender.com",
+      
+    },
+    {
+      url: "http://localhost:4300",
+      
     },
   ],
   paths: {},
@@ -25,8 +30,7 @@ const apiDoc = {
       },
     },
   },
-}
-
+};
 const outputFilePath = "./swagger_output.json";
 const endpointsFilePaths = ["../app.ts"];
 swaggerAutogen({ openapi: "3.0.0" })(
@@ -34,7 +38,3 @@ swaggerAutogen({ openapi: "3.0.0" })(
   endpointsFilePaths,
   apiDoc
 );
-
-
-
-
