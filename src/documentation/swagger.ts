@@ -6,7 +6,7 @@ const apiDoc = {
     description: "Documentation for the Express API endpoints",
     version: "1.0.0",
     contact: {
-      name: "Gisa M. Calbeb",
+      name: "Gisa M. Caleb",
       email: "gisacaleb72@gmail.com",
     },
   },
@@ -28,7 +28,7 @@ const apiDoc = {
 }
 
 const outputFilePath = "./swagger_output.json";
-const endpointsFilePaths = ["../app.ts","../routes/*.ts"];
+const endpointsFilePaths = ["../app.ts"];
 swaggerAutogen({ openapi: "3.0.0" })(
   outputFilePath,
   endpointsFilePaths,
