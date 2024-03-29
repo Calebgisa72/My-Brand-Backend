@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import blogRoutes from './routes/blogRoutes';
+import messageRoutes from './routes/messageRoutes'
 import commentRoutes from './routes/commentRoutes';
 import swaggerUi from 'swagger-ui-express';
 import swaggerOutput from './documentation/swagger_output.json';
@@ -37,6 +38,12 @@ app.use('/api/auth', authRoutes
 app.use('/api', commentRoutes
 /*
 #swagger.tags = ['COMMENT']
+*/
+);
+
+app.use('/api', messageRoutes
+ /*
+#swagger.tags = ['Massages']
 */
 );
 

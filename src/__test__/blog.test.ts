@@ -5,6 +5,7 @@ import app from '../app';
 import { mockUserData, mockBlogData } from '../mock/mockData';
 import path = require('path');
 import Blog from '../models/Blog'
+import Messages from '../models/contact'
 import fs from "fs";
 import { testMongoConnect, testMongoClose } from '../utils/mongo';
 
@@ -20,12 +21,22 @@ const newComment = {
     comment: "Test Comment"
 };
 
+const newMessage = {
+    sName:"test",
+    sEmail:"test@gmail.com",
+    sLocation:"test",
+    message:"Testing"
+}
+
+
 let authToken: string;
 let id = "65fd7a01f6f7f2fa932aadb7";
 
 let createdBlogId: string;
 let createdCommentId: string;
 let commentId: number= 0;
+let fSendedMessageID: string;
+let sSendedMessageID: string;
 
 beforeAll(async () => {
     await testMongoConnect(MONGODB_URI);
@@ -64,6 +75,16 @@ describe("Blog API", () => {
             expect(response.body.message).toBe("User credentials updated successfully");
         });
 
+        test("should return status 500 if all reqired credentials are not submitted", async()=>{
+            const notUser = {
+                    username: "Cadas72",
+            };
+            const response = await request(app)
+                .post("/api/auth/signup")
+                .send(notUser)
+                .expect(500)
+        })
+
         test("Should sign in the user", async () => {
             const signInResponse = await request(app)
                 .post("/api/auth/signin")
@@ -72,7 +93,18 @@ describe("Blog API", () => {
 
             authToken = signInResponse.body.token;
             expect(authToken).toBeDefined();
+
         });
+
+        test("should return status 500 if all reqired credentials are not submitted", async()=>{
+            const notUser = {
+                username: "Caleb72"
+              };
+            const response = await request(app)
+                .post("/api/auth/signin")
+                .send(notUser)
+                .expect(500);
+        })
 
         test("Should not sign in a fake user", async ()=>{
             const fakeUser = {
@@ -83,6 +115,7 @@ describe("Blog API", () => {
                 .post("/api/auth/signin")
                 .send(fakeUser)
                 .expect(401);
+                expect(signInResponse.body.message).toBe("Invalid username or password");
         })
 
      describe("Create new blog", ()=>{
@@ -235,6 +268,15 @@ describe("Blog API", () => {
     
             expect(response.body.message).toBe("Blog not found");
         });
+
+        test("should return status 500 if all reqired credentials are not submitted", async ()=>{
+            let id= "664343982763"
+            const response = await request(app)
+            .delete(`/api/blogs/${id}`)
+            .set("Authorization", `Bearer ${authToken}`)
+            .expect(500);
+
+        })
      })
 
      describe("Get Blog Post by ID", () => {
@@ -299,6 +341,13 @@ describe("Like a blog", () => {
         expect(response.body.message).toBe("Blog not found");
     });
 
+    test("Should return status 500 when trying to like a  blog id which is invalid", async () => {
+        let fakeId = "26712"
+        const response = await request(app)
+            .post(`/api/blogs/${fakeId}/like`)
+            .expect(500);
+        });
+
 
 })
 
@@ -329,6 +378,17 @@ describe("Blog Comment", () => {
             
      });
 
+     test("Should return status 404 when the blog is not there", async () => {
+        let fakeId = "65fd7a01f6f7f2fa932aad99"
+        const response = await request(app)
+            .post(`/api/blogs/${fakeId}/comments`)
+            .send({
+                sender: newComment.sender,
+                comment: newComment.comment
+            })
+            .expect(404);
+        });
+
      describe("Get Comments for Blog Post", () => {
         test("Should get all comments for a blog post", async () => {
             const response = await request(app)
@@ -338,6 +398,17 @@ describe("Blog Comment", () => {
             expect(Array.isArray(response.body)).toBe(true);
         });
 
+        test("Should return status 500 when the blog id is invalid", async () => {
+            let fakeId = "26712"
+            const response = await request(app)
+                .post(`/api/blogs/${fakeId}/comments`)
+                .send({
+                    sender: newComment.sender,
+                    comment: newComment.comment
+                })
+                .expect(500);
+            });
+
         test("Get Comment of non-existent blog post", async () => {
             const nonExistentId = "123456789012345678901234";
             const response = await request(app)
@@ -346,6 +417,13 @@ describe("Blog Comment", () => {
     
             expect(response.body.message).toBe("Blog not found");
         });
+
+        test("Should return status 500 when trying to get comments of a  blog id which is invalid", async () => {
+            let fakeId = "26712"
+            const response = await request(app)
+                .get(`/api/blogs/${fakeId}/comments`)
+                .expect(500);
+            });
 
         describe("Delete Comment", () => {
             test("Should delete an existing comment", async () => {
@@ -357,7 +435,7 @@ describe("Blog Comment", () => {
                 expect(response.body.message).toBe("Comment deleted successfully");
             });
 
-            test("Trying to delete a non-existing comment", async () => {
+            test("Trying to delete a comment on a non-existing blog", async () => {
                 const nonExistentId = "123456789012345678901234";
                 const response = await request(app)
                 .delete(`/api/blogs/${nonExistentId}/comments/${commentId}`)
@@ -374,11 +452,137 @@ describe("Blog Comment", () => {
                 .expect(400)
                 expect(response.body.message).toBe("Invalid comment index");
             })
+
+            test("Should return status 500 when trying to delete comment of a blog id which is invalid", async () => {
+                let fakeId = "26712"
+                const response = await request(app)
+                .delete(`/api/blogs/${fakeId}/comments/${commentId}`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(500)
+                });
         })
     });
 
+    let messageDetails = {
+        sName: 'Sender Name',
+        sEmail: 'test@gmail.com',
+        message: 'Test message'
+    }
+    
+    describe("Message Functionality", ()=>{
+    
+        test('Should send a message without sLocation', async () => {
+            const response = await request(app)
+                .post('/api/message')
+                .send(messageDetails)
+                .expect(201);
+        
+            expect(response.body.message).toBe('Message sent successfully');
+        
+            fSendedMessageID = response.body.data._id;
+            console.log(fSendedMessageID);
+        });
+
+        test("Should send a message with sLocation", async () => {
+            let messageDetailss = {
+                sName: 'Sender Name',
+                sEmail: 'test@gmail.com',
+                sLocation: 'Test Location',
+                message: 'Test message'
+            }
+            const response = await request(app)
+                .post('/api/message')
+                .send(messageDetailss)
+                .expect(201);
+        
+            expect(response.body.message).toBe('Message sent successfully');
+            sSendedMessageID = response.body.data._id;
+            console.log(sSendedMessageID);
+        });
+        
+        test('Should return 400 for invalid email format', async () => {
+            let fakeEmail = {
+                    sName: 'jhasxa',
+                    sEmail: 'invalid email',
+                    message: 'Test message'
+            }
+            await request(app)
+                .post('/api/message')
+                .send(fakeEmail)
+                .expect(400, { error: 'Enter a valid email' });
+        });
+
+        test('Should return 500 for missing some required properties', async () => {
+            let missingMessage = {
+                sName:"test",
+                sEmail:"test@gmail.com"
+            }
+            await request(app)
+                .post('/api/message')
+                .send(missingMessage)
+                .expect(500);
+        });
+    })
+    
+    describe('GET /api/messages', () => {
+        test('should return all messages', async () => {
+            const response = await request(app)
+            .get("/api/message")
+            .expect(200);
+
+            expect(Array.isArray(response.body)).toBe(true);
+        });
+
+        it('should return status 500 if an error occurs', async () => {
+            jest.spyOn(Messages, "find").mockRejectedValueOnce(new Error("Database error"));
+            const response = await request(app)
+                .get("/api/message")
+                .expect(500);
+        });
+
+    });
+
+    describe("Delete a Message",()=>{
+        test("Should delete the Messages i created in the test", async () => {
+            
+            const response = await request(app)
+                .delete(`/api/message/${fSendedMessageID}`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(200);
+    
+            expect(response.body.message).toBe("Message deleted successfully");
+
+            const response2 = await request(app)
+                .delete(`/api/message/${sSendedMessageID}`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(200);
+                expect(response2.body.message).toBe("Message deleted successfully");
+        });
+
+        test("Should return 404 if message does not exist", async () => {
+            const nonExistentId = "123456789012345678901234";
+            const response = await request(app)
+                .delete(`/api/message/${nonExistentId}`)
+                .set("Authorization", `Bearer ${authToken}`)
+                .expect(404);
+    
+            expect(response.body.message).toBe("Message not found");
+        });
+
+        test("should return status 500 if id is invalid", async ()=>{
+            let fakeId= "664343982763"
+            const response = await request(app)
+            .delete(`/api/message/${fakeId}`)
+            .set("Authorization", `Bearer ${authToken}`)
+            .expect(500);
+
+        })
+     })
 
 });
+
+
+
 
 
 
