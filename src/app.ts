@@ -6,6 +6,7 @@ import blogRoutes from './routes/blogRoutes';
 import messageRoutes from './routes/messageRoutes'
 import commentRoutes from './routes/commentRoutes';
 import swaggerUi from 'swagger-ui-express';
+import cors from 'cors';
 import swaggerOutput from './documentation/swagger_output.json';
 import { mongoConnect, mongoDisconnect } from './utils/mongo';
 
@@ -16,6 +17,8 @@ const PORT = 4300;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mybranddb';
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerOutput));
 
