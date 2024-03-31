@@ -7,7 +7,7 @@ export const mockUserData = {
 
 export const mockBlogData = {
         bImage: "Test Image 1",
-        bTitle: "Test Blog 1",
+        bTitle: "Testing my API ",
         bShortDesc: "Test Short Description 1",
         bLongDesc: "Test Long Description 1"
     }
