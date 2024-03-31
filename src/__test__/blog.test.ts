@@ -135,12 +135,12 @@ describe("Blog API", () => {
                 .attach("bImage", filePath as string)
                 .expect(201);
 
-                expect(response1.body).toHaveProperty("bTitle");
-                expect(response1.body).toHaveProperty("bShortDesc");
-                expect(response1.body).toHaveProperty("bLongDesc");
-                expect(response1.body).toHaveProperty("bImage");
+                expect(response1.body.newBlog).toHaveProperty("bTitle");
+                expect(response1.body.newBlog).toHaveProperty("bShortDesc");
+                expect(response1.body.newBlog).toHaveProperty("bLongDesc");
+                expect(response1.body.newBlog).toHaveProperty("bImage");
 
-                createdBlogId = response1.body._id;
+                createdBlogId = response1.body.newBlog._id;
 
             const response2 = await request(app)
             .post("/api/blogs")
@@ -214,9 +214,9 @@ describe("Blog API", () => {
             }
 
             const updatedData = {
-                bTitle: "Updated Title",
-                bShortDesc: "Updated Short Description",
-                bLongDesc: "Updated Long Description"
+                bTitle: "Title Update",
+                bShortDesc: "Short Description Updated",
+                bLongDesc: "Long Description Updated"
             };
 
             const response = await request(app)
@@ -480,7 +480,6 @@ describe("Blog Comment", () => {
             expect(response.body.message).toBe('Message sent successfully');
         
             fSendedMessageID = response.body.data._id;
-            console.log(fSendedMessageID);
         });
 
         test("Should send a message with sLocation", async () => {
@@ -497,7 +496,6 @@ describe("Blog Comment", () => {
         
             expect(response.body.message).toBe('Message sent successfully');
             sSendedMessageID = response.body.data._id;
-            console.log(sSendedMessageID);
         });
         
         test('Should return 400 for invalid email format', async () => {
