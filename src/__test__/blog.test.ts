@@ -348,6 +348,30 @@ describe("Like a blog", () => {
             .expect(500);
         });
 
+        test("should be able to dislike a blog post", async () => {
+            const response = await request(app)
+                .post(`/api/blogs/${id}/disLike`)
+                .expect(200);
+    
+            expect(response.body.message).toBe("Blog disliked successfully");
+        });
+    
+        test("disLiking a non-existent blog post", async () => {
+            const nonExistentId = "123456789012345678901234";
+            const response = await request(app)
+                .post(`/api/blogs/${nonExistentId}/disLike`)
+                .expect(404);
+    
+            expect(response.body.message).toBe("Blog not found");
+        });
+    
+        test("Should return status 500 when trying to dislike a  blog id which is invalid", async () => {
+            let fakeId = "26712"
+            const response = await request(app)
+                .post(`/api/blogs/${fakeId}/disLike`)
+                .expect(500);
+            });
+
 
 })
 
@@ -526,6 +550,7 @@ describe("Blog Comment", () => {
         test('should return all messages', async () => {
             const response = await request(app)
             .get("/api/message")
+            .set("Authorization", `Bearer ${authToken}`)
             .expect(200);
 
             expect(Array.isArray(response.body)).toBe(true);
@@ -535,6 +560,7 @@ describe("Blog Comment", () => {
             jest.spyOn(Messages, "find").mockRejectedValueOnce(new Error("Database error"));
             const response = await request(app)
                 .get("/api/message")
+                .set("Authorization", `Bearer ${authToken}`)
                 .expect(500);
         });
 
