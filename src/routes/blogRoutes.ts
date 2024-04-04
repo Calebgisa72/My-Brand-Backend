@@ -12,5 +12,6 @@ router.get('/blogs/:id',blogController.getBlogById);
 router.put('/blogs/:id', requireSignIn, blogController.updateBlogById);
 router.delete('/blogs/:id', requireSignIn, blogController.deleteBlogById);
 router.post('/blogs/:id/like', blogController.likeBlog);
+router.post('/blogs/:id/disLike', blogController.disLikeBlog);
 
 export default router;
