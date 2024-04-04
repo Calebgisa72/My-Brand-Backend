@@ -209,7 +209,6 @@ class BlogController {
     
             res.status(200).json({ blog, message: 'Blog disliked successfully' });
         } catch (error) {
-            console.error(error);
             res.status(500).json({ message: 'Internal server error' });
         }
     }
