@@ -5,6 +5,8 @@ import authRoutes from './routes/authRoutes';
 import blogRoutes from './routes/blogRoutes';
 import messageRoutes from './routes/messageRoutes'
 import commentRoutes from './routes/commentRoutes';
+import profileRoutes from './routes/profileRoute';
+import projectRoutes from './routes/projectRoutes';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import swaggerOutput from './documentation/swagger_output.json';
@@ -41,6 +43,18 @@ app.use('/api/auth', authRoutes
 app.use('/api', commentRoutes
 /*
 #swagger.tags = ['COMMENT']
+*/
+);
+
+app.use('/api', profileRoutes
+/*
+#swagger.tags = ['PROFILE']
+*/
+);
+
+app.use('/api', projectRoutes
+/*
+#swagger.tags = ['PROJECT']
 */
 );
 

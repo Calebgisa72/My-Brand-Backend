@@ -14,8 +14,8 @@ class BlogController {
         }
 
         const { bTitle, bShortDesc, bLongDesc } = req.body;
-        const result = await cloudinary.uploader.upload(req.file.path); // Upload image to Cloudinary
-
+        const result = await cloudinary.uploader.upload(req.file.path);
+        
         const newBlog = new Blog({
             bImage: result.secure_url,
             bTitle,
