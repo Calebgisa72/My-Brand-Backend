@@ -4,8 +4,8 @@ import { requireSignIn } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
-router.post('/message', messageController.sendMessage);
-router.get('/message', requireSignIn, messageController.getAllMessages);
-router.delete('/message/:id', requireSignIn, messageController.deleteMessage);
+router.post('/', messageController.sendMessage);
+router.get('/', requireSignIn, messageController.getAllMessages);
+router.delete('/:id', requireSignIn, messageController.deleteMessage);
 
 export default router;

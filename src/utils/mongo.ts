@@ -1,5 +1,3 @@
-// mongo.ts
-
 import mongoose from 'mongoose';
 
 export const mongoConnect = async (uri: string) => {
