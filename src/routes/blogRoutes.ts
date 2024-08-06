@@ -6,7 +6,7 @@ import upload from "../middlewares/multer";
 const router = express.Router();
 
 router.post(
-  "/blogs",
+  "/",
   requireSignIn,
   upload.single("bImage"),
   blogController.createBlog

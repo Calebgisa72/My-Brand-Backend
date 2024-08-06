@@ -33,7 +33,7 @@ const apiDoc = {
 };
 const outputFilePath = "./swagger_output.json";
 const endpointsFilePaths = ["../app.ts"];
-swaggerAutogen({ openapi: "3.0.0" })(
+swaggerAutogen({ openapi: "3.1.0" })(
   outputFilePath,
   endpointsFilePaths,
   apiDoc

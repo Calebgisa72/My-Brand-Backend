@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.1.0",
   "info": {
     "title": "MY BRAND API DOCUMENTATION",
     "description": "Documentation for the Express API endpoints",
@@ -28,17 +28,12 @@
         }
       }
     },
-    "/api/blogs": {
+    "/api/blogs/": {
       "post": {
         "tags": [
           "BLOG"
         ],
         "description": "",
-        "security":[
-          {
-              "BearerAuth":[]
-          }
-      ],
         "parameters": [
           {
             "name": "authorization",
@@ -131,11 +126,6 @@
           "BLOG"
         ],
         "description": "",
-        "security":[
-          {
-              "BearerAuth":[]
-          }
-      ],
         "parameters": [
           {
             "name": "id",
@@ -205,11 +195,6 @@
           "BLOG"
         ],
         "description": "",
-        "security":[
-          {
-              "BearerAuth":[]
-          }
-      ],
         "parameters": [
           {
             "name": "id",
@@ -244,6 +229,35 @@
       }
     },
     "/api/blogs/{id}/like": {
+      "post": {
+        "tags": [
+          "BLOG"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/blogs/{id}/disLike": {
       "post": {
         "tags": [
           "BLOG"
@@ -420,11 +434,6 @@
           "COMMENT"
         ],
         "description": "",
-        "security":[
-          {
-              "BearerAuth":[]
-          }
-      ],
         "parameters": [
           {
             "name": "blogId",
@@ -469,7 +478,449 @@
         }
       }
     },
-    "/api/message": {
+    "/api/skills/": {
+      "post": {
+        "tags": [
+          "SKILL"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "example": "any"
+                  },
+                  "learntDate": {
+                    "example": "any"
+                  },
+                  "proficiency": {
+                    "example": "any"
+                  },
+                  "shortDescription": {
+                    "example": "any"
+                  },
+                  "relatedLibraries": {
+                    "example": "any"
+                  },
+                  "color": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "SKILL"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/skills/{id}": {
+      "put": {
+        "tags": [
+          "SKILL"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "icon": {
+                    "example": "any"
+                  },
+                  "title": {
+                    "example": "any"
+                  },
+                  "learntDate": {
+                    "example": "any"
+                  },
+                  "proficiency": {
+                    "example": "any"
+                  },
+                  "shortDescription": {
+                    "example": "any"
+                  },
+                  "relatedLibraries": {
+                    "example": "any"
+                  },
+                  "color": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "SKILL"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/apiprofile/updateCv/{id}": {
+      "post": {
+        "tags": [
+          "PROFILE"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/project/": {
+      "post": {
+        "tags": [
+          "PROJECT"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pStartDate": {
+                    "example": "any"
+                  },
+                  "pTitle": {
+                    "example": "any"
+                  },
+                  "pTechnologies": {
+                    "example": "any"
+                  },
+                  "pShortDesc": {
+                    "example": "any"
+                  },
+                  "pLongDesc": {
+                    "example": "any"
+                  },
+                  "pEndDate": {
+                    "example": "any"
+                  },
+                  "pLink": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "PROJECT"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/project/{id}": {
+      "get": {
+        "tags": [
+          "PROJECT"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PROJECT"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "pStartDate": {
+                    "example": "any"
+                  },
+                  "pTitle": {
+                    "example": "any"
+                  },
+                  "pTechnologies": {
+                    "example": "any"
+                  },
+                  "pShortDesc": {
+                    "example": "any"
+                  },
+                  "pLongDesc": {
+                    "example": "any"
+                  },
+                  "pEndDate": {
+                    "example": "any"
+                  },
+                  "pLink": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "PROJECT"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/message/": {
       "post": {
         "tags": [
           "Massages"
@@ -515,11 +966,6 @@
           "Massages"
         ],
         "description": "",
-        "security":[
-          {
-              "BearerAuth":[]
-          }
-      ],
         "parameters": [
           {
             "name": "authorization",
@@ -548,11 +994,6 @@
           "Massages"
         ],
         "description": "",
-        "security":[
-          {
-              "BearerAuth":[]
-          }
-      ],
         "parameters": [
           {
             "name": "id",

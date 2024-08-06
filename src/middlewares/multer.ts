@@ -5,7 +5,21 @@ export default multer({
   storage: multer.diskStorage({}),
   fileFilter: (req, file, next) => {
     const ext = path.extname(file.originalname);
-    const supported = [".png", ".jpg", ".jpeg", ".webp"];
+    const supported = [".png", ".jpg", ".jpeg", ".webp", ".svg"];
+    if (!supported.includes(ext)) {
+      next(
+        new Error(`file type not supported\ntry ${supported} are supported`)
+      );
+    }
+    next(null, true);
+  },
+});
+
+export const cvMulter = multer({
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, next) => {
+    const ext = path.extname(file.originalname);
+    const supported = [".pdf", ".docs"];
     if (!supported.includes(ext)) {
       next(
         new Error(`file type not supported\ntry ${supported} are supported`)
