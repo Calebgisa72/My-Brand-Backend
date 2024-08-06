@@ -5,6 +5,7 @@ import messageRoutes from "./messageRoutes";
 import commentRoutes from "./commentRoutes";
 import profileRoutes from "./profileRoute";
 import projectRoutes from "./projectRoutes";
+import skillRoutes from "./skillsRoutes";
 
 const router = Router();
 
@@ -29,6 +30,14 @@ router.use(
   commentRoutes
   /*
   #swagger.tags = ['COMMENT']
+  */
+);
+
+router.use(
+  "/skills",
+  skillRoutes
+  /*
+  #swagger.tags = ['SKILL']
   */
 );
 
