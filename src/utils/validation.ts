@@ -5,7 +5,7 @@ const requiredString = z.string().trim().min(1, "Required");
 const finishingDateSchema = z.union([z.date(), z.literal("present")]);
 
 export const projectSchema = z.object({
-  pImage: requiredString.optional(),
+  pImage: requiredString,
   pTitle: requiredString,
   pTechnologies: z.array(z.string()),
   pShortDesc: requiredString,
@@ -34,4 +34,12 @@ export const skillSchema = z.object({
   shortDescription: z.string().nonempty("Short description is required"),
   relatedLibraries: z.string().optional(),
   color: requiredString,
+});
+
+export const profileSchema = z.object({
+  welcomeText: requiredString,
+  name: requiredString,
+  frontDescription: requiredString,
+  aboutTitle: requiredString,
+  aboutDescription: requiredString,
 });

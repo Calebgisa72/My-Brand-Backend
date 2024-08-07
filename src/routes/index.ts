@@ -3,7 +3,7 @@ import authRoutes from "./authRoutes";
 import blogRoutes from "./blogRoutes";
 import messageRoutes from "./messageRoutes";
 import commentRoutes from "./commentRoutes";
-import profileRoutes from "./profileRoute";
+import profileRoutes from "./profileRoutes";
 import projectRoutes from "./projectRoutes";
 import skillRoutes from "./skillsRoutes";
 
@@ -42,7 +42,7 @@ router.use(
 );
 
 router.use(
-  "profile",
+  "/profile",
   profileRoutes
   /*
   #swagger.tags = ['PROFILE']

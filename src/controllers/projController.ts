@@ -16,6 +16,7 @@ class projController {
 
       const validation = projectSchema.safeParse({
         ...req.body,
+        ...req.file.path,
         pStartDate: startDate,
       });
       if (!validation.success) {
@@ -103,6 +104,7 @@ class projController {
       }
 
       const {
+        pImage,
         pTitle,
         pTechnologies,
         pShortDesc,
@@ -115,6 +117,7 @@ class projController {
       const updatedProject: IProj | null = await Project.findByIdAndUpdate(
         id,
         {
+          pImage,
           pTitle,
           pTechnologies,
           pShortDesc,

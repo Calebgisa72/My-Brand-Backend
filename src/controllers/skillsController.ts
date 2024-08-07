@@ -16,6 +16,7 @@ class SkillController {
 
       const validation = skillSchema.safeParse({
         ...req.body,
+        ...req.file.path,
         learntDate: learnt,
       });
       if (!validation.success) {

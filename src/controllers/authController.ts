@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import User from "../models/profile";
+import User from "../models/User";
 import { generateToken } from "../services/authService";
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
@@ -12,7 +12,10 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
     const hashedPassword = bcrypt.hashSync(password, 10);
 
     if (existingUser) {
-      await User.findOneAndUpdate({}, { username, password: hashedPassword });
+      await User.findOneAndUpdate(
+        { _id: existingUser._id },
+        { username, password: hashedPassword }
+      );
     } else {
       await User.create({ username, password: hashedPassword });
     }

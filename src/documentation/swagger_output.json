@@ -30,10 +30,13 @@
     },
     "/api/blogs/": {
       "post": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "authorization",
@@ -79,9 +82,7 @@
         }
       },
       "get": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
         "responses": {
           "200": {
@@ -95,9 +96,7 @@
     },
     "/api/blogs/{id}": {
       "get": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
         "parameters": [
           {
@@ -122,10 +121,13 @@
         }
       },
       "put": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -191,10 +193,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -230,9 +235,7 @@
     },
     "/api/blogs/{id}/like": {
       "post": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
         "parameters": [
           {
@@ -259,9 +262,7 @@
     },
     "/api/blogs/{id}/disLike": {
       "post": {
-        "tags": [
-          "BLOG"
-        ],
+        "tags": ["BLOG"],
         "description": "",
         "parameters": [
           {
@@ -288,9 +289,7 @@
     },
     "/api/auth/signup": {
       "post": {
-        "tags": [
-          "USER"
-        ],
+        "tags": ["USER"],
         "description": "",
         "responses": {
           "200": {
@@ -321,9 +320,7 @@
     },
     "/api/auth/signin": {
       "post": {
-        "tags": [
-          "USER"
-        ],
+        "tags": ["USER"],
         "description": "",
         "responses": {
           "200": {
@@ -357,9 +354,7 @@
     },
     "/api/blogs/{id}/comments": {
       "post": {
-        "tags": [
-          "COMMENT"
-        ],
+        "tags": ["COMMENT"],
         "description": "",
         "parameters": [
           {
@@ -401,9 +396,7 @@
         }
       },
       "get": {
-        "tags": [
-          "COMMENT"
-        ],
+        "tags": ["COMMENT"],
         "description": "",
         "parameters": [
           {
@@ -430,10 +423,13 @@
     },
     "/api/blogs/{blogId}/comments/{commentIndex}": {
       "delete": {
-        "tags": [
-          "COMMENT"
-        ],
+        "tags": ["COMMENT"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "blogId",
@@ -480,10 +476,13 @@
     },
     "/api/skills/": {
       "post": {
-        "tags": [
-          "SKILL"
-        ],
+        "tags": ["SKILL"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "authorization",
@@ -513,10 +512,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "title": {
+                  "learntDate": {
                     "example": "any"
                   },
-                  "learntDate": {
+                  "title": {
                     "example": "any"
                   },
                   "proficiency": {
@@ -538,9 +537,7 @@
         }
       },
       "get": {
-        "tags": [
-          "SKILL"
-        ],
+        "tags": ["SKILL"],
         "description": "",
         "responses": {
           "200": {
@@ -554,10 +551,13 @@
     },
     "/api/skills/{id}": {
       "put": {
-        "tags": [
-          "SKILL"
-        ],
+        "tags": ["SKILL"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -598,13 +598,13 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "learntDate": {
+                    "example": "any"
+                  },
                   "icon": {
                     "example": "any"
                   },
                   "title": {
-                    "example": "any"
-                  },
-                  "learntDate": {
                     "example": "any"
                   },
                   "proficiency": {
@@ -626,10 +626,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "SKILL"
-        ],
+        "tags": ["SKILL"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -663,21 +666,16 @@
         }
       }
     },
-    "/apiprofile/updateCv/{id}": {
+    "/api/profile/": {
       "post": {
-        "tags": [
-          "PROFILE"
-        ],
+        "tags": ["PROFILE"],
         "description": "",
-        "parameters": [
+        "security": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
           {
             "name": "authorization",
             "in": "header",
@@ -696,8 +694,46 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileImage": {
+                    "example": "any"
+                  },
+                  "welcomeText": {
+                    "example": "any"
+                  },
+                  "name": {
+                    "example": "any"
+                  },
+                  "frontDescription": {
+                    "example": "any"
+                  },
+                  "aboutTitle": {
+                    "example": "any"
+                  },
+                  "aboutDescription": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["PROFILE"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "500": {
             "description": "Internal Server Error"
@@ -707,10 +743,13 @@
     },
     "/api/project/": {
       "post": {
-        "tags": [
-          "PROJECT"
-        ],
+        "tags": ["PROJECT"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "authorization",
@@ -768,9 +807,7 @@
         }
       },
       "get": {
-        "tags": [
-          "PROJECT"
-        ],
+        "tags": ["PROJECT"],
         "description": "",
         "responses": {
           "200": {
@@ -784,9 +821,7 @@
     },
     "/api/project/{id}": {
       "get": {
-        "tags": [
-          "PROJECT"
-        ],
+        "tags": ["PROJECT"],
         "description": "",
         "parameters": [
           {
@@ -811,10 +846,13 @@
         }
       },
       "put": {
-        "tags": [
-          "PROJECT"
-        ],
+        "tags": ["PROJECT"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -858,6 +896,9 @@
                   "pStartDate": {
                     "example": "any"
                   },
+                  "pImage": {
+                    "example": "any"
+                  },
                   "pTitle": {
                     "example": "any"
                   },
@@ -883,10 +924,13 @@
         }
       },
       "delete": {
-        "tags": [
-          "PROJECT"
-        ],
+        "tags": ["PROJECT"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -922,9 +966,7 @@
     },
     "/api/message/": {
       "post": {
-        "tags": [
-          "Massages"
-        ],
+        "tags": ["Massages"],
         "description": "",
         "responses": {
           "201": {
@@ -962,10 +1004,13 @@
         }
       },
       "get": {
-        "tags": [
-          "Massages"
-        ],
+        "tags": ["Massages"],
         "description": "",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "authorization",
@@ -990,8 +1035,11 @@
     },
     "/api/message/{id}": {
       "delete": {
-        "tags": [
-          "Massages"
+        "tags": ["Massages"],
+        "security": [
+          {
+            "BearerAuth": []
+          }
         ],
         "description": "",
         "parameters": [

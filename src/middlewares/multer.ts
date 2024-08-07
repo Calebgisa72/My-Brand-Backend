@@ -15,20 +15,6 @@ export default multer({
   },
 });
 
-export const cvMulter = multer({
-  storage: multer.diskStorage({}),
-  fileFilter: (req, file, next) => {
-    const ext = path.extname(file.originalname);
-    const supported = [".pdf", ".docs"];
-    if (!supported.includes(ext)) {
-      next(
-        new Error(`file type not supported\ntry ${supported} are supported`)
-      );
-    }
-    next(null, true);
-  },
-});
-
 // import multer, { Multer } from 'multer';
 // import { Request } from 'express';
 
