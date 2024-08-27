@@ -24,6 +24,9 @@ class ProfileController {
         frontDescription,
         aboutTitle,
         aboutDescription,
+        school,
+        currentCourse,
+        experience,
       } = req.body;
 
       let response;
@@ -38,6 +41,9 @@ class ProfileController {
             frontDescription,
             aboutTitle,
             aboutDescription,
+            school,
+            currentCourse,
+            experience,
           },
           { new: true }
         );
@@ -54,6 +60,9 @@ class ProfileController {
           frontDescription,
           aboutTitle,
           aboutDescription,
+          school,
+          currentCourse,
+          experience,
         });
       }
 

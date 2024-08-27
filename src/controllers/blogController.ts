@@ -33,7 +33,7 @@ class BlogController {
   //Get all blog posts
   async getAllBlogs(req: Request, res: Response): Promise<void> {
     try {
-      const blogs: IBlog[] = await Blog.find();
+      const blogs: IBlog[] = await Blog.find().sort({ bDate: -1 });
       res.status(200).json(blogs);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
@@ -59,15 +59,12 @@ class BlogController {
   async updateBlogById(req: Request, res: Response): Promise<void> {
     try {
       const id = req.params.id;
-      const {
-        bImage,
-        bTitle,
-        bShortDesc,
-        bLongDesc,
-        bDate,
-        bNumOfLike,
-        bComments,
-      } = req.body;
+      const { bTitle, bShortDesc, bLongDesc, bNumOfLike, bComments } = req.body;
+      let bImage = req.body.bImage;
+
+      if (req.file) {
+        bImage = await cloudinary.uploader.upload(req.file.path);
+      }
 
       const updatedBlog: IBlog | null = await Blog.findByIdAndUpdate(
         id,
@@ -76,7 +73,6 @@ class BlogController {
           bTitle,
           bShortDesc,
           bLongDesc,
-          bDate,
           bNumOfLike,
           bComments,
         },
@@ -155,28 +151,14 @@ class BlogController {
   // Delete a comment from a blog post
   async deleteComment(req: Request, res: Response): Promise<void> {
     try {
-      const blogId = req.params.blogId;
-      const commentIndexStr = req.params.commentIndex;
-      const commentIndex = parseInt(commentIndexStr, 10);
-
-      const blog: IBlog | null = await Blog.findById(blogId);
-      if (!blog) {
-        res.status(404).json({ message: "Blog not found" });
+      const id = req.params.id;
+      const deletedComment: IComment | null = await Comment.findByIdAndDelete(
+        id
+      );
+      if (!deletedComment) {
+        res.status(404).json({ message: "Comment not found" });
         return;
       }
-
-      if (
-        isNaN(commentIndex) ||
-        commentIndex < 0 ||
-        commentIndex >= blog.bComments.length
-      ) {
-        res.status(400).json({ message: "Invalid comment index" });
-        return;
-      }
-
-      blog.bComments.splice(commentIndex, 1);
-      await blog.save();
-
       res.status(200).json({ message: "Comment deleted successfully" });
     } catch (error: any) {
       res.status(500).json({ message: error.message });
