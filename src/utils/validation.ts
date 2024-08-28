@@ -2,16 +2,38 @@ import { z } from "zod";
 import { Proficiency } from "../models/skills";
 
 const requiredString = z.string().trim().min(1, "Required");
-const finishingDateSchema = z.union([z.date(), z.literal("present")]);
+const atLeastThreeSkills = z.string().refine(
+  (val) => {
+    const commaCount = (val.match(/,/g) || []).length;
+    return commaCount >= 3;
+  },
+  {
+    message: "Minimum of 3 tech (comma-separated) are required",
+  }
+);
 
 export const projectSchema = z.object({
-  pImage: requiredString,
+  pImage: requiredString.optional(),
   pTitle: requiredString,
-  pTechnologies: z.array(z.string()),
+  pTechnologies: atLeastThreeSkills,
   pShortDesc: requiredString,
   pLongDesc: requiredString,
   pStartDate: z.date(),
-  pEndDate: finishingDateSchema,
+  pEndDate: z.union([
+    z
+      .string()
+      .nonempty("End date is required")
+      .transform((str) => {
+        if (str === "present") return str;
+        const date = new Date(str);
+        if (isNaN(date.getTime())) {
+          throw new Error("Invalid end date.");
+        }
+        return date;
+      }),
+    z.date(),
+    z.literal("present"),
+  ]),
   pLink: z.string().url().optional(),
 });
 
@@ -37,9 +59,13 @@ export const skillSchema = z.object({
 });
 
 export const profileSchema = z.object({
+  profileImage: requiredString.optional(),
   welcomeText: requiredString,
   name: requiredString,
   frontDescription: requiredString,
   aboutTitle: requiredString,
   aboutDescription: requiredString,
+  school: requiredString,
+  currentCourse: requiredString,
+  experience: requiredString,
 });

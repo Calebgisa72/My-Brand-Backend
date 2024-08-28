@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Project, { IProj } from "../models/projects";
 import cloudinary from "../services/cloudinary";
 import { projectSchema } from "../utils/validation";
+import { string } from "zod";
 
 class projController {
   //post new project
@@ -16,7 +17,6 @@ class projController {
 
       const validation = projectSchema.safeParse({
         ...req.body,
-        ...req.file.path,
         pStartDate: startDate,
       });
       if (!validation.success) {
@@ -42,7 +42,9 @@ class projController {
       const newProject = new Project({
         pImage: result.secure_url,
         pTitle,
-        pTechnologies,
+        pTechnologies: pTechnologies
+          .split(",")
+          .map((tech: string) => tech.trim()),
         pShortDesc,
         pLongDesc,
         pStartDate,
