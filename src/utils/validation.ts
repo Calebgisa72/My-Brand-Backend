@@ -13,7 +13,6 @@ const atLeastThreeSkills = z.string().refine(
 );
 
 export const projectSchema = z.object({
-  pImage: requiredString.optional(),
   pTitle: requiredString,
   pTechnologies: atLeastThreeSkills,
   pShortDesc: requiredString,
@@ -39,7 +38,6 @@ export const projectSchema = z.object({
 
 export const skillSchema = z.object({
   title: z.string().nonempty("Title is required"),
-  icon: z.string().nonempty("Icon URL is required").optional(),
   learntDate: z.date(),
   proficiency: z.nativeEnum(Proficiency, {
     errorMap: (issue, _ctx) => {
@@ -59,7 +57,6 @@ export const skillSchema = z.object({
 });
 
 export const profileSchema = z.object({
-  profileImage: requiredString.optional(),
   welcomeText: requiredString,
   name: requiredString,
   frontDescription: requiredString,

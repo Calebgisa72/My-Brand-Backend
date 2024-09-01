@@ -8,7 +8,6 @@ const router = express.Router();
 router.post(
   "/",
   requireSignIn,
-  upload.single("profileImage"),
   profileController.updateProfile
 );
 router.get("/", profileController.getProfile);

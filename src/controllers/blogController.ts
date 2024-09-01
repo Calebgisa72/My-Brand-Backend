@@ -59,12 +59,8 @@ class BlogController {
   async updateBlogById(req: Request, res: Response): Promise<void> {
     try {
       const id = req.params.id;
-      const { bTitle, bShortDesc, bLongDesc, bNumOfLike, bComments } = req.body;
-      let bImage = req.body.bImage;
-
-      if (req.file) {
-        bImage = await cloudinary.uploader.upload(req.file.path);
-      }
+      const { bImage, bTitle, bShortDesc, bLongDesc, bNumOfLike, bComments } =
+        req.body;
 
       const updatedBlog: IBlog | null = await Blog.findByIdAndUpdate(
         id,
