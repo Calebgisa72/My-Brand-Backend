@@ -147,9 +147,18 @@ class BlogController {
   // Delete a comment from a blog post
   async deleteComment(req: Request, res: Response): Promise<void> {
     try {
-      const id = req.params.id;
+      const commentId = req.params.id;
+      const id = req.params.blogId;
+      const blogToDeleteComment = await Blog.findById(id);
+      if (!blogToDeleteComment) return;
+      blogToDeleteComment.bComments = blogToDeleteComment.bComments.filter(
+        (comment) => {
+          return comment._id.toString() !== commentId;
+        }
+      );
+      await blogToDeleteComment.save();
       const deletedComment: IComment | null = await Comment.findByIdAndDelete(
-        id
+        commentId
       );
       if (!deletedComment) {
         res.status(404).json({ message: "Comment not found" });

@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/:id/comments", blogController.addComment);
 router.get("/:id/comments", blogController.getComments);
 router.delete(
-  "/comments/:id",
+  "/:blogId/comments/:id",
   requireSignIn,
   blogController.deleteComment
 );

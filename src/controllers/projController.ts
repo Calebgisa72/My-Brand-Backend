@@ -121,7 +121,9 @@ class projController {
         {
           pImage,
           pTitle,
-          pTechnologies,
+          pTechnologies: pTechnologies
+            .split(",")
+            .map((tech: string) => tech.trim()),
           pShortDesc,
           pLongDesc,
           pStartDate,
